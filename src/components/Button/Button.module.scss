@@ -1,0 +1,16 @@
+@import '../../sass/_components.scss';
+
+.button {
+  color: $--main-color;
+  background-color: $--primary-color;
+  padding: 4px 25px;
+  flex-basis: calc(100% - 10px);
+  border-radius: 80px;
+  font-size: 16px;
+
+  &:disabled {
+    color: #fff;
+    cursor: no-drop;
+    background-color: $--baclground-disabled;
+  }
+}

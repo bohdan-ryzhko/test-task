@@ -1,5 +1,6 @@
 import sass from "./Header.module.scss";
 import logo from "../../images/logo.svg";
+import { Button } from "components/Button/Button";
 
 export const Header = () => {
 	return (
@@ -13,8 +14,8 @@ export const Header = () => {
 						</a>
 					</div>
 					<div className={sass.header__authorization}>
-						<button className={sass.button__authorization}>Users</button>
-						<button className={sass.button__authorization}>Sign up</button>
+						<Button text="Users" type="button" disabled={false} />
+						<Button text="Sign up" type="button" disabled={false} />
 					</div>
 				</div>
 			</div>
