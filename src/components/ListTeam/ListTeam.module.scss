@@ -1,0 +1,29 @@
+@import '../../sass/_components.scss';
+
+.section__team {
+  padding-top: 140px;
+}
+
+.team__inner {
+}
+
+.team__list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 50px;
+
+  @include tablet {
+    flex-direction: row;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  @include desktop {
+    gap: 29px;
+  }
+}
+.showMoreBtn {
+  text-align: center;
+}
