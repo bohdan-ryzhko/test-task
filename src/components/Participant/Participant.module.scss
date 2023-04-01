@@ -9,8 +9,8 @@
   transition: all 300ms ease;
 
   &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px $--main-color;
+    transform: scale(1.02);
+    box-shadow: 0 0 10px 5px #c2c2c2;
   }
 
   @include tablet {
@@ -24,9 +24,9 @@
 
 .team__avatar {
   margin-bottom: 20px;
-}
-
-.team__description {
+  & > img {
+    border-radius: 100%;
+  }
 }
 
 .team__name {
