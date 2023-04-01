@@ -1,7 +1,18 @@
+@import './sass/_components.scss';
+
 *,
 *::after,
 *::before {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: calc(26 / 16);
+  background-color: $--baclground;
 }
 
 ul,
@@ -14,6 +25,8 @@ li {
 button {
   cursor: pointer;
   border: none;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 h1,
@@ -25,10 +38,14 @@ h6,
 p {
   margin: 0;
   padding: 0;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 a {
   text-decoration: none;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 @import './components/Header/Header.module.scss';
