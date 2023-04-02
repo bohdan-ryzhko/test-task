@@ -6,7 +6,6 @@ import { validationSchema } from "services/validationSchema";
 import { Button } from "components/Button/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { nanoid } from "nanoid";
 // import { ToastContainer, toast } from 'react-toastify';
 
 
