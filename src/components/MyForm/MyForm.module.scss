@@ -1,2 +1,148 @@
+@import '../../sass/_components.scss';
+
 .form {
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.formTop {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-bottom: 29px;
+
+  & > label {
+    flex-basis: 100%;
+  }
+}
+
+.formInput {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.formPhone {
+  padding-left: 20px;
+  font-size: 12px;
+  line-height: calc(14 / 12);
+  color: #7e7e7e;
+}
+
+.positionTitle {
+  margin-bottom: 11px;
+}
+
+.formPositions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 50px;
+
+  & > label {
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+    cursor: pointer;
+
+    & > input {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      opacity: 0;
+    }
+
+    & > input:checked + .customCheckbox {
+      border-color: #00bdd3;
+      &::before {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    & > .customCheckbox {
+      position: relative;
+      display: inline-block;
+      background-color: transparent;
+      width: 20px;
+      height: 20px;
+      border: 1px solid;
+      border-color: #d0cfcf;
+      border-radius: 100%;
+      margin-right: 12px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 10px;
+        height: 10px;
+        background-color: #00bdd3;
+        border-radius: 100%;
+        transition: all 300ms ease;
+      }
+    }
+  }
+}
+
+.user__photoLabel,
+.user__photoLabelActive {
+  display: block;
+  margin-bottom: 50px;
+  border: 1px solid;
+  border-color: #d0cfcf;
+  text-align: left;
+  padding: 15px 10px 15px 100px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 4px;
+  color: #7e7e7e;
+
+  &::before {
+    content: 'Upload';
+    color: $--main-color;
+    position: absolute;
+    height: 100%;
+    width: 83px;
+    top: 0;
+    padding: 15px;
+    border: 1px solid $--main-color;
+    border-radius: 4px 0px 0px 4px;
+    transition: all 1300ms ease-in-out;
+  }
+
+  & > input {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    opacity: 0;
+  }
+}
+
+.user__photoLabel {
+  &::before {
+    left: 0;
+  }
+}
+
+.user__photoLabelActive {
+  &::before {
+    content: 'Load';
+    text-align: center;
+    border-radius: 0px 4px 4px 0px;
+    border: 1px solid $--primary-color;
+    background-color: $--primary-color;
+    left: 100%;
+    transform: translateX(-100%);
+  }
 }

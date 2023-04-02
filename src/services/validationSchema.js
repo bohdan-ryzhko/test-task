@@ -7,3 +7,11 @@ export const validationSchema = object().shape({
 	checked: array().of(string()),
 	userPhoto: string().required()
 })
+
+// export const validationSchema = object().shape({
+// 	userName: string(),
+// 	email: string(),
+// 	phone: string(),
+// 	checked: array().of(string()),
+// 	userPhoto: string()
+// })

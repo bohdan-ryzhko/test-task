@@ -9,7 +9,11 @@ export const Participant = ({ user: { photo, email, name, phone, position } }) =
 			<div className={sass.team__description}>
 				<h3 className={sass.team__name}>{name}</h3>
 				<p className={sass.team__descr}>{position}</p>
-				<p className={sass.team__descr}>{email}</p>
+				<p className={sass.team__descr}>{
+					email.length === 20
+						? email
+						: email.slice(0, 20)+"..."
+				}</p>
 				<p className={sass.team__descr}>{phone}</p>
 			</div>
 		</li>

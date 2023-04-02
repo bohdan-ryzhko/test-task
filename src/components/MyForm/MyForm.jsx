@@ -1,77 +1,110 @@
 import sass from "./MyForm.module.scss";
-import { Formik, Field, Form } from 'formik';
+import 'react-toastify/dist/ReactToastify.css';
+import { useFormik } from 'formik';
 import { initialValues } from "services/initialValues";
 import { validationSchema } from "services/validationSchema";
+import { Button } from "components/Button/Button";
+import { useState } from "react";
+// import { ToastContainer, toast } from 'react-toastify';
 
 export const MyForm = () => {
 
-	const submitForm = (values, { resetForm }) => {
-		console.log(values);
-		resetForm();
+	let [isLoadPhoto, setLoadPhoto] = useState("");
+
+	const formik = useFormik({
+		initialValues,
+		validationSchema,
+		onSubmit: () => {
+			formik.resetForm();
+			console.log(formik.values);
+		}
+	});
+
+	const handlePhoto = ({ target }) => {
+		formik.setFieldValue("userPhoto", target.files[0]);
+		if (target.value) {
+			setLoadPhoto(() => isLoadPhoto = target.value);
+		} else {
+			setLoadPhoto(() => isLoadPhoto = "");
+		}
 	}
 
 	return (
-		<Formik
-			initialValues={initialValues}
-			validationSchema={validationSchema}
-			onSubmit={submitForm}
-		>
-			<Form className={sass.form}>
-				<label htmlFor="userName">
-					<Field
-						id="userName"
-						className="SearchForm-input"
-						name="userName"
-						autoComplete="off"
-						autoFocus
-						type="text"
-						placeholder="Your name"
-					/>
+
+			<form onReset={formik.resetForm} onSubmit={formik.handleSubmit} className={sass.form}>
+				<div className={sass.formTop}>
+					<label htmlFor="userName">
+						<input
+							onChange={formik.handleChange}
+							id="userName"
+							className={sass.formInput}
+							name="userName"
+							autoComplete="off"
+							autoFocus
+							type="text"
+							placeholder="Your name"
+						/>
+					</label>
+					<label htmlFor="email">
+					<input
+						onChange={formik.handleChange}
+							id="email"
+							className={sass.formInput}
+							name="email"
+							autoComplete="off"
+							autoFocus
+							type="email"
+							placeholder="Email"
+						/>
+					</label>
+					<label htmlFor="phone">
+					<input
+						onChange={formik.handleChange}
+							id="phone"
+							className={sass.formInput}
+							name="phone"
+							autoComplete="off"
+							autoFocus
+							type="phone"
+							placeholder="Phone"
+						/>
+						<p className={sass.formPhone}>+38 (XXX) XXX - XX - XX</p>
+					</label>
+				</div>
+				<p className={sass.positionTitle}>Select your position</p>
+					<div className={sass.formPositions}>
+						<label htmlFor="frontend">
+							<input id="frontend" type="checkbox" name="checked" value="Frontend developer" />
+							<span className={sass.customCheckbox} />
+							Frontend developer
+						</label>
+						<label htmlFor="backend">
+							<input onChange={formik.handleChange} id="backend" type="checkbox" name="checked" value="Backend developer" />
+							<span className={sass.customCheckbox} />
+							Backend developer
+						</label>
+						<label onChange={formik.handleChange} htmlFor="designer">
+							<input id="designer" type="checkbox" name="checked" value="Designer" />
+							<span className={sass.customCheckbox} />
+							Designer
+						</label>
+						<label htmlFor="QA">
+							<input onChange={formik.handleChange} id="QA" type="checkbox" name="checked" value="QA" />
+							<span className={sass.customCheckbox} />
+							QA
+						</label>
+					</div>
+				<label className={isLoadPhoto ? sass.user__photoLabelActive : sass.user__photoLabel} htmlFor="userPhoto">
+					<input
+						onChange={handlePhoto}
+						id="userPhoto"
+						accept=".jpg"
+						type="file"
+						name="userPhoto"
+				/>
+				{isLoadPhoto ? isLoadPhoto : "Upload your photo" }
 				</label>
-				<label htmlFor="email">
-					<Field
-						id="email"
-						className="SearchForm-input"
-						name="email"
-						autoComplete="off"
-						autoFocus
-						type="email"
-						placeholder="Email"
-					/>
-				</label>
-				<label htmlFor="phone">
-					<Field
-						id="phone"
-						className="SearchForm-input"
-						name="phone"
-						autoComplete="off"
-						autoFocus
-						type="phone"
-						placeholder="Phone"
-					/>
-				</label>
-				<p className="position">Select your position</p>
-				<label htmlFor="frontend">
-					<Field id="frontend" type="checkbox" name="checked" value="Frontend developer" />
-					Frontend developer
-				</label>
-				<label htmlFor="backend">
-					<Field id="backend" type="checkbox" name="checked" value="Backend developer" />
-					Backend developer
-				</label>
-				<label htmlFor="designer">
-					<Field id="designer" type="checkbox" name="checked" value="Designer" />
-					Designer
-				</label>
-				<label htmlFor="QA">
-					<Field id="QA" type="checkbox" name="checked" value="QA" />
-					QA
-				</label>
-				<label htmlFor="userPhoto">
-					<Field id="userPhoto" accept=".jpg" type="file" name="userPhoto" />
-				</label>
-				<button className="submitBtn" type="submit">Sign up</button>
-			</Form>
-		</Formik>
+				<Button text="Sign up" type="submit" disabled={false} />
+			</form>
 	)
 }
