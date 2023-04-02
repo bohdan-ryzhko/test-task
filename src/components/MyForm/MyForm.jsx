@@ -4,13 +4,14 @@ import { useFormik } from 'formik';
 import { initialValues } from "services/initialValues";
 import { validationSchema } from "services/validationSchema";
 import { Button } from "components/Button/Button";
-import { useState } from "react";
-// import axios from "axios";
+import { useEffect, useState } from "react";
+import axios from "axios";
 // import { ToastContainer, toast } from 'react-toastify';
 
 export const MyForm = () => {
 
 	let [isLoadPhoto, setLoadPhoto] = useState("");
+	const [checkedBoxes, setCheckedBoxes] = useState([]);
 
 	const formik = useFormik({
 		initialValues,
@@ -36,6 +37,11 @@ export const MyForm = () => {
 		}
 	});
 
+	useEffect(() => {
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
+			.then(({ data: { positions } }) => setCheckedBoxes(positions));
+	}, []);
+
 	const handlePhoto = ({ target }) => {
 		formik.setFieldValue("userPhoto", target.files[0]);
 		if (target.value) {
@@ -46,7 +52,6 @@ export const MyForm = () => {
 	}
 
 	return (
-
 			<form onReset={formik.resetForm} onSubmit={formik.handleSubmit} className={sass.form}>
 				<div className={sass.formTop}>
 					<label htmlFor="name">
@@ -88,27 +93,18 @@ export const MyForm = () => {
 					</label>
 				</div>
 				<p className={sass.positionTitle}>Select your position</p>
-					<div className={sass.formPositions}>
-						<label htmlFor="frontend">
-							<input id="frontend" type="checkbox" name="checked" value="Frontend developer" />
-							<span className={sass.customCheckbox} />
-							Frontend developer
+			<div className={sass.formPositions}>
+				
+					{
+					checkedBoxes.length > 0 &&
+					checkedBoxes.map(({ name, id }) => (
+						<label key={id} htmlFor={name}>
+								<input id={name} type="checkbox" name="checked" value={name} />
+								<span className={sass.customCheckbox} />
+								{name}
 						</label>
-						<label htmlFor="backend">
-							<input onChange={formik.handleChange} id="backend" type="checkbox" name="checked" value="Backend developer" />
-							<span className={sass.customCheckbox} />
-							Backend developer
-						</label>
-						<label onChange={formik.handleChange} htmlFor="designer">
-							<input id="designer" type="checkbox" name="checked" value="Designer" />
-							<span className={sass.customCheckbox} />
-							Designer
-						</label>
-						<label htmlFor="QA">
-							<input onChange={formik.handleChange} id="QA" type="checkbox" name="checked" value="QA" />
-							<span className={sass.customCheckbox} />
-							QA
-						</label>
+						))
+					}
 					</div>
 				<label className={isLoadPhoto ? sass.user__photoLabelActive : sass.user__photoLabel} htmlFor="userPhoto">
 					<input

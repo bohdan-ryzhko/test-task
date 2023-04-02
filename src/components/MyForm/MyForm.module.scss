@@ -130,12 +130,16 @@
 }
 
 .user__photoLabel {
+  overflow: hidden;
   &::before {
     left: 0;
   }
 }
 
 .user__photoLabelActive {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
   &::before {
     content: 'Load';
     text-align: center;

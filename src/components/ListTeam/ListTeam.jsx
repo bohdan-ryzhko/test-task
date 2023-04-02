@@ -7,13 +7,10 @@ import { Puff } from 'react-loader-spinner';
 import axios from "axios";
 
 export const ListTeam = () => {
-	
 	const [isHiddenLoadMore, setHiddenLoadMore] = useState(false);
 	const [fetchUsers, setFetchUsers] = useState([]);
 	const [page, setPage] = useState(1);
 	const [isLoad, setIsLoad] = useState(false);
-	
-	// const baseUrl = `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`;
 
 	useEffect(() => {
 		axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`)
