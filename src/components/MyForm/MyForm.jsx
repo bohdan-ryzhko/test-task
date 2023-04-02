@@ -6,15 +6,23 @@ import { validationSchema } from "services/validationSchema";
 import { Button } from "components/Button/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import succesImage from "../../images/success-image.svg";
 // import { ToastContainer, toast } from 'react-toastify';
 
-
-
 export const MyForm = () => {
-
-	let [isLoadPhoto, setLoadPhoto] = useState("");
+	const [isLoadPhoto, setLoadPhoto] = useState("");
 	const [checkedBoxes, setCheckedBoxes] = useState([]);
 	const [token, setToken] = useState("");
+	const [errors, setError] = useState(null);
+	const [successRegistered, setSuccessRegistered] = useState(null);
+
+	const errorsArray = [];
+
+	if (errors) {
+		for (let key in errors.fails) {
+			errorsArray.push(errors.fails[key]);
+		}
+	}
 
 	useEffect(() => {
 		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token")
@@ -32,8 +40,8 @@ export const MyForm = () => {
 				formData.append("position_id", Number(position));
 				formData.append("name", name);
 				formData.append("email", email);
-				formData.append("phone", phone);
 				formData.append("photo", userPhoto);
+				formData.append("phone", phone);
 
 				const options = {
 					method: "POST",
@@ -45,8 +53,14 @@ export const MyForm = () => {
 
 				fetch(postUrl, options)
 					.then(res => res.json())
-					.then(data => console.log(data))
-					.catch(error => console.log(error));
+					.then(data => {
+						if (!data.success) {
+							return Promise.reject(data);
+						}
+						setSuccessRegistered(data);
+						console.log(data);
+					})
+					.catch(error => setError(error));
 			} catch (error) {
 				console.log(error);
 			}
@@ -107,7 +121,7 @@ export const MyForm = () => {
 					/>
 						<p className={sass.formPhone}>+38 (XXX) XXX - XX - XX</p>
 					</label>
-				</div>
+			</div>
 						<p className={sass.positionTitle}>Select your position</p>
 						<div className={sass.formPositions}>
 						{
@@ -130,7 +144,26 @@ export const MyForm = () => {
 						name="userPhoto"
 				/>
 				{isLoadPhoto ? isLoadPhoto : "Upload your photo"}
-				</label>
+			</label>
+			{
+				errors &&
+				(<>
+					<h4 className={sass.errorTitle}>{errors.message}</h4>
+					<ul className={sass.errorList}>
+						{errorsArray.map(error => <li className={sass.errorItem} key={error}>{error}</li>)}
+					</ul>
+				</>
+				)
+			}
+			{
+				successRegistered &&
+				(
+					<>
+						<h4 className={sass.successTitle}>{successRegistered.message}</h4>
+						<img className={sass.successImg} src={succesImage} alt="User successfully registered" />
+					</>
+				)
+			}
 				<Button text="Sign up" type="submit" disabled={false} />
 			</form>
 	)
