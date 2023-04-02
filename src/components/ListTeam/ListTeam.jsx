@@ -4,19 +4,41 @@ import { Participant } from "components/Participant/Participant";
 import { Button } from "components/Button/Button";
 import { useEffect, useState } from "react";
 import { Puff } from 'react-loader-spinner';
-// import { fetchUsers } from "services/fetchUsers";
-
-const baseUrl = "https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6";
+import axios from "axios";
 
 export const ListTeam = () => {
-
+	
+	const [isHiddenLoadMore, setHiddenLoadMore] = useState(false);
 	const [fetchUsers, setFetchUsers] = useState([]);
+	const [page, setPage] = useState(1);
+	const [isLoad, setIsLoad] = useState(false);
+	
+	// const baseUrl = `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`;
 
 	useEffect(() => {
-		fetch(baseUrl)
-			.then(res => res.json())
-			.then(({ users }) => setFetchUsers(users));
+		axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`)
+			.then(({ data: { users } }) => setFetchUsers(users))
 	}, []);
+
+	useEffect(() => {
+		if (page > 1) {
+			setIsLoad(true);
+			axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
+				.then(({ data: { users } }) => {
+					if (page === 11) {
+						setHiddenLoadMore(true);
+						setIsLoad(false);
+						return setFetchUsers(prev => [...prev, ...users]);
+					}
+					setIsLoad(false);
+					return setFetchUsers(prev => [...prev, ...users]);
+				});
+		}
+	}, [page]);
+
+	const handleSetPage = () => {
+		setPage(prevPage => prevPage + 1);
+	}
 
 	return (
 		<section className={sass.section__team}>
@@ -25,18 +47,24 @@ export const ListTeam = () => {
 					<SectionTitle title="Working with GET request" />
 					<ul className={sass.team__list}>
 						{
-							fetchUsers.length === 0
-								? <Puff
-									height="100"
-									width="100"
-									color="#d6c439"
-									wrapperStyle={{ margin: "0 auto" }}
-								/>
-								: fetchUsers.map(user => <Participant key={user.id} user={user} />)
+							(fetchUsers.length > 0) &&
+							fetchUsers.map(user => <Participant key={user.id} user={user} />)
 						}
 					</ul>
 					<div className={sass.showMoreBtn}>
-						<Button type="button" text="Show more" />
+						{
+							isLoad &&
+							<Puff
+								width={100}
+								height={100}
+								color="#d6c439"
+								wrapperStyle={{ justifyContent: "center", marginBottom: 10 }}
+							/>
+						}
+						{
+							!isHiddenLoadMore &&
+							<Button onClick={handleSetPage} type="button" text="Show more" />
+						}
 					</div>
 				</div>
 			</div>

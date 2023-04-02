@@ -5,6 +5,7 @@ import { initialValues } from "services/initialValues";
 import { validationSchema } from "services/validationSchema";
 import { Button } from "components/Button/Button";
 import { useState } from "react";
+// import axios from "axios";
 // import { ToastContainer, toast } from 'react-toastify';
 
 export const MyForm = () => {
@@ -14,9 +15,24 @@ export const MyForm = () => {
 	const formik = useFormik({
 		initialValues,
 		validationSchema,
-		onSubmit: () => {
-			formik.resetForm();
-			console.log(formik.values);
+		onSubmit: async () => {
+			// const postUrl = 'https://frontend-test-assignment-api.abz.agency/api/v1/users/';
+			// const { email, name, phone, checked, userPhoto } = formik.values;
+			try {
+				// const formData = new FormData();
+				// formData.append("email", email);
+				// formData.append("name", name);
+				// formData.append("phone", phone);
+				// formData.append("checked", checked);
+				// formData.append("userPhoto", userPhoto);
+				// formData.append("position_id", 2);
+				// const res = await axios.post(postUrl, formData);
+
+				// console.log(res);
+				console.log(formik.values);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	});
 
