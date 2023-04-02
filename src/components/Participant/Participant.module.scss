@@ -15,11 +15,11 @@
   }
 
   @include tablet {
-    flex-basis: calc(100% / 2 - 16px);
+    flex-basis: calc(100% / 2 - 10px);
   }
 
   @include desktop {
-    flex-basis: calc(100% / 3 - 29px);
+    flex-basis: calc(100% / 3 - 20px);
   }
 }
 

@@ -10,11 +10,15 @@ export const ListTeam = () => {
 	const [isHiddenLoadMore, setHiddenLoadMore] = useState(false);
 	const [fetchUsers, setFetchUsers] = useState([]);
 	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(0);
 	const [isLoad, setIsLoad] = useState(false);
 
 	useEffect(() => {
 		axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`)
-			.then(({ data: { users } }) => setFetchUsers(users))
+			.then(({ data: { total_pages, users } }) => {
+				setFetchUsers(users);
+				setTotalPages(total_pages);
+			})
 	}, []);
 
 	useEffect(() => {
@@ -22,7 +26,7 @@ export const ListTeam = () => {
 			setIsLoad(true);
 			axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
 				.then(({ data: { users } }) => {
-					if (page === 11) {
+					if (page === totalPages) {
 						setHiddenLoadMore(true);
 						setIsLoad(false);
 						return setFetchUsers(prev => [...prev, ...users]);
@@ -31,7 +35,7 @@ export const ListTeam = () => {
 					return setFetchUsers(prev => [...prev, ...users]);
 				});
 		}
-	}, [page]);
+	}, [page, totalPages]);
 
 	const handleSetPage = () => {
 		setPage(prevPage => prevPage + 1);

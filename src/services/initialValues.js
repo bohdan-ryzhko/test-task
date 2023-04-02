@@ -3,5 +3,5 @@ export const initialValues = Object.freeze({
 	email: "",
 	phone: "",
 	userPhoto: "",
-	checked: []
+	position: 0
 });
