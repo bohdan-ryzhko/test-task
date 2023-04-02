@@ -11,7 +11,7 @@ export const Participant = ({ user: { photo, email, name, phone, position } }) =
 				<h3 className={sass.team__name}>{
 					name.length < 20
 						? name
-						: name.slice(19)
+						: name.slice(20)
 				}</h3>
 				<p className={sass.team__descr}>{position}</p>
 				<p className={sass.team__descr}>
