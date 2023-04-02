@@ -33,12 +33,12 @@ export const MyForm = () => {
 
 			<form onReset={formik.resetForm} onSubmit={formik.handleSubmit} className={sass.form}>
 				<div className={sass.formTop}>
-					<label htmlFor="userName">
+					<label htmlFor="name">
 						<input
 							onChange={formik.handleChange}
-							id="userName"
+							id="name"
 							className={sass.formInput}
-							name="userName"
+							name="name"
 							autoComplete="off"
 							autoFocus
 							type="text"

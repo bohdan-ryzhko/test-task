@@ -1,5 +1,5 @@
 export const initialValues = Object.freeze({
-	userName: "",
+	name: "",
 	email: "",
 	phone: "",
 	userPhoto: "",
