@@ -18,9 +18,7 @@ export const MyForm = () => {
 
 	useEffect(() => {
 		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token")
-			.then(({ data: { token } }) => {
-				setToken(token)
-			});
+			.then(({ data: { token } }) => setToken(token));
 	}, []);
 
 	const formik = useFormik({
