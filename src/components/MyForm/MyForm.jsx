@@ -8,7 +8,7 @@ import axios from "axios";
 import succesImage from "../../images/success-image.svg";
 
 export const MyForm = () => {
-	const [isLoadPhoto, setLoadPhoto] = useState("");
+	const [isLoadPhoto, setLoadPhoto] = useState(null);
 	const [checkedRadios, setCheckedRadios] = useState([]);
 	const [token, setToken] = useState("");
 	const [errors, setError] = useState(null);
@@ -24,7 +24,7 @@ export const MyForm = () => {
 
 	useEffect(() => {
 		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token")
-			.then(({ data: { token } }) => setToken(token));
+			.then(({ data: { token } }) => setToken(token))
 	}, []);
 
 
@@ -36,9 +36,9 @@ export const MyForm = () => {
 			try {
 				const formData = new FormData();
 				const { name, email, phone, position, userPhoto } = formik.values;
-				
+
 				console.log(formik.values);
-				
+
 				formData.append("position_id", Number(position));
 				formData.append("name", name);
 				formData.append("email", email);
@@ -75,7 +75,7 @@ export const MyForm = () => {
 
 	useEffect(() => {
 		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
-			.then(({ data: { positions } }) => setCheckedRadios(positions));
+			.then(({ data: { positions } }) => setCheckedRadios(positions))
 	}, []);
 
 	const handlePhoto = ({ target }) => {
@@ -83,7 +83,7 @@ export const MyForm = () => {
 		if (target.value) {
 			setLoadPhoto(target.value);
 		} else {
-			setLoadPhoto("");
+			setLoadPhoto(null);
 		}
 	}
 
@@ -165,12 +165,12 @@ export const MyForm = () => {
 						name="userPhoto"
 					/>
 					{isLoadPhoto ? isLoadPhoto : "Upload your photo"}
+				</label>
 				{
 					formik.errors.userPhoto && (
 						<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.userPhoto}</p>
 					)
 				}
-				</label>
 				{
 					errors &&
 					<>

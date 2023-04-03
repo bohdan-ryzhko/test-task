@@ -2,7 +2,7 @@ import { MyForm } from "components/MyForm/MyForm";
 import sass from "./FeedbackForm.module.scss";
 import { SectionTitle } from "components/SectionTitle/SectionTitle";
 
-export const FeedbackForm = ({ notify }) => {
+export const FeedbackForm = () => {
 	return (
 		<section className={sass.feedback__section}>
 			<div className="container">
