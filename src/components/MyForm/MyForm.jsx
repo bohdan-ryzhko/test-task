@@ -165,12 +165,12 @@ export const MyForm = () => {
 						name="userPhoto"
 					/>
 					{isLoadPhoto ? isLoadPhoto : "Upload your photo"}
-				</label>
 				{
-				formik.errors.userPhoto && (
-					<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.userPhoto}</p>
+					formik.errors.userPhoto && (
+						<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.userPhoto}</p>
 					)
 				}
+				</label>
 				{
 					errors &&
 					<>
