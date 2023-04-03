@@ -20,7 +20,8 @@
 .formInput {
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid #d0cfcf;
+  border: 1px solid;
+  border-color: #d0cfcf;
   border-radius: 4px;
   background-color: transparent;
 }

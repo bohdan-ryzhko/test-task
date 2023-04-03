@@ -27,6 +27,7 @@ export const MyForm = () => {
 			.then(({ data: { token } }) => setToken(token));
 	}, []);
 
+
 	const formik = useFormik({
 		initialValues,
 		validationSchema,
@@ -59,9 +60,13 @@ export const MyForm = () => {
 							return Promise.reject(data);
 						}
 						setSuccessRegistered(data);
+						setTimeout(() => setSuccessRegistered(null), 7000);
 						console.log(data);
 					})
-					.catch(error => setError(error));
+					.catch(error => {
+						setError(error)
+						setTimeout(() => setError(null), 7000);
+					});
 			} catch (error) {
 				console.log(error);
 			}
@@ -97,10 +102,10 @@ export const MyForm = () => {
 						placeholder="Your name"
 					/>
 					{
-				formik.errors.name && (
-					<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.name}</p>
-					)
-				}
+					formik.errors.name && (
+						<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.name}</p>
+						)
+					}
 				</label>
 				<label htmlFor="email">
 					<input
