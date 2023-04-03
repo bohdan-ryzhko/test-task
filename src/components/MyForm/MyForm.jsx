@@ -1,5 +1,4 @@
 import sass from "./MyForm.module.scss";
-import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import { initialValues } from "services/initialValues";
 import { validationSchema } from "services/validationSchema";
@@ -7,11 +6,10 @@ import { Button } from "components/Button/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import succesImage from "../../images/success-image.svg";
-// import { ToastContainer, toast } from 'react-toastify';
 
 export const MyForm = () => {
 	const [isLoadPhoto, setLoadPhoto] = useState("");
-	const [checkedBoxes, setCheckedBoxes] = useState([]);
+	const [checkedRadios, setCheckedRadios] = useState([]);
 	const [token, setToken] = useState("");
 	const [errors, setError] = useState(null);
 	const [successRegistered, setSuccessRegistered] = useState(null);
@@ -37,6 +35,9 @@ export const MyForm = () => {
 			try {
 				const formData = new FormData();
 				const { name, email, phone, position, userPhoto } = formik.values;
+				
+				console.log(formik.values);
+				
 				formData.append("position_id", Number(position));
 				formData.append("name", name);
 				formData.append("email", email);
@@ -69,7 +70,7 @@ export const MyForm = () => {
 
 	useEffect(() => {
 		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
-			.then(({ data: { positions } }) => setCheckedBoxes(positions));
+			.then(({ data: { positions } }) => setCheckedRadios(positions));
 	}, []);
 
 	const handlePhoto = ({ target }) => {
@@ -82,33 +83,43 @@ export const MyForm = () => {
 	}
 
 	return (
-			<form onSubmit={formik.handleSubmit} className={sass.form}>
-				<div className={sass.formTop}>
-					<label htmlFor="name">
-						<input
-							onChange={formik.handleChange}
-							id="name"
-							className={sass.formInput}
-							name="name"
-							autoComplete="off"
-							autoFocus
-							type="text"
-							placeholder="Your name"
-						/>
-					</label>
-					<label htmlFor="email">
-						<input
-							onChange={formik.handleChange}
-							id="email"
-							className={sass.formInput}
-							name="email"
-							autoComplete="off"
-							autoFocus
-							type="email"
-							placeholder="Email"
-						/>
-					</label>
-					<label htmlFor="phone">
+		<form onSubmit={formik.handleSubmit} className={sass.form}>
+			<div className={sass.formTop}>
+				<label htmlFor="name">
+					<input
+						onChange={formik.handleChange}
+						id="name"
+						className={sass.formInput}
+						name="name"
+						autoComplete="off"
+						autoFocus
+						type="text"
+						placeholder="Your name"
+					/>
+					{
+				formik.errors.name && (
+					<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.name}</p>
+					)
+				}
+				</label>
+				<label htmlFor="email">
+					<input
+						onChange={formik.handleChange}
+						id="email"
+						className={sass.formInput}
+						name="email"
+						autoComplete="off"
+						autoFocus
+						type="email"
+						placeholder="Email"
+					/>
+					{
+					formik.errors.email && (
+						<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.email}</p>
+						)
+					}
+				</label>
+				<label htmlFor="phone">
 					<input
 						onChange={formik.handleChange}
 						id="phone"
@@ -120,21 +131,26 @@ export const MyForm = () => {
 						placeholder="Phone"
 					/>
 						<p className={sass.formPhone}>+38 (XXX) XXX - XX - XX</p>
-					</label>
+					{
+					formik.errors.phone && (
+						<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.phone}</p>
+						)
+					}
+				</label>
 			</div>
-						<p className={sass.positionTitle}>Select your position</p>
-						<div className={sass.formPositions}>
-						{
-							checkedBoxes.length > 0 &&
-							checkedBoxes.map(({ name, id }) => (
-								<label key={id} htmlFor={name}>
-									<input onChange={formik.handleChange} id={name} type="radio" name="position" value={Number(id)} />
-									<span className={sass.customCheckbox} />
-									{name}
-								</label>
-							))
-						}
-					</div>
+				<p className={sass.positionTitle}>Select your position</p>
+				<div className={sass.formPositions}>
+					{
+						checkedRadios.length > 0 &&
+						checkedRadios.map(({ name, id }) => (
+							<label key={id} htmlFor={name}>
+								<input onChange={formik.handleChange} id={name} type="radio" name="position" value={Number(id)} />
+								<span className={sass.customCheckbox} />
+								{name}
+							</label>
+						))
+					}
+				</div>
 				<label className={isLoadPhoto ? sass.user__photoLabelActive : sass.user__photoLabel} htmlFor="userPhoto">
 					<input
 						onChange={handlePhoto}
@@ -142,29 +158,31 @@ export const MyForm = () => {
 						accept=".jpg"
 						type="file"
 						name="userPhoto"
-				/>
-				{isLoadPhoto ? isLoadPhoto : "Upload your photo"}
-			</label>
-			{
-				errors &&
-				(<>
-					<h4 className={sass.errorTitle}>{errors.message}</h4>
-					<ul className={sass.errorList}>
-						{errorsArray.map(error => <li className={sass.errorItem} key={error}>{error}</li>)}
-					</ul>
-				</>
-				)
-			}
-			{
-				successRegistered &&
-				(
+					/>
+					{isLoadPhoto ? isLoadPhoto : "Upload your photo"}
+				</label>
+				{
+				formik.errors.userPhoto && (
+					<p style={{fontSize: 20, color: "#7c4242"}} >{formik.errors.userPhoto}</p>
+					)
+				}
+				{
+					errors &&
+					<>
+						<h4 className={sass.errorTitle}>{errors.message}</h4>
+						<ul className={sass.errorList}>
+							{errorsArray.map(error => <li className={sass.errorItem} key={error}>{error}</li>)}
+						</ul>
+					</>
+				}
+				{
+					successRegistered &&
 					<>
 						<h4 className={sass.successTitle}>{successRegistered.message}</h4>
 						<img className={sass.successImg} src={succesImage} alt="User successfully registered" />
 					</>
-				)
-			}
-				<Button text="Sign up" type="submit" disabled={false} />
-			</form>
+				}
+			<Button text="Sign up" type="submit" disabled={false} />
+		</form>
 	)
 }
