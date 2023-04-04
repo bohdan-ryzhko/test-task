@@ -14,32 +14,23 @@ export const ListTeam = () => {
 	const [isLoad, setIsLoad] = useState(false);
 
 	useEffect(() => {
-		axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`)
-			.then(({ data: { total_pages, users } }) => {
-				setFetchUsers(users);
-				setTotalPages(total_pages);
-			})
-	}, []);
-
-	useEffect(() => {
-		if (page > 1) {
 			setIsLoad(true);
 			axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
-				.then(({ data: { users } }) => {
+				.then(({ data: { users, total_pages } }) => {
+						setTotalPages(total_pages);
 					if (page === totalPages) {
 						setHiddenLoadMore(true);
 						setIsLoad(false);
 						return setFetchUsers(prev => [...prev, ...users]);
 					}
+					if (page > 1) {
+						setIsLoad(false);
+						return setFetchUsers(prev => [...prev, ...users]);
+					}
+					setFetchUsers(users);
 					setIsLoad(false);
-					return setFetchUsers(prev => [...prev, ...users]);
 				});
-		}
 	}, [page, totalPages]);
-
-	const handleSetPage = () => {
-		setPage(prevPage => prevPage + 1);
-	}
 
 	return (
 		<section className={sass.section__team}>
@@ -64,7 +55,7 @@ export const ListTeam = () => {
 						}
 						{
 							!isHiddenLoadMore &&
-							<Button onClick={handleSetPage} type="button" text="Show more" />
+							<Button onClick={() => setPage(prevPage => prevPage + 1)} type="button" text="Show more" />
 						}
 					</div>
 				</div>
