@@ -5,11 +5,13 @@ import { Hero } from "./Hero/Hero";
 
 import { ListTeam } from "./ListTeam/ListTeam";
 import { FeedbackForm } from "./FeedbackForm/FeedbackForm";
+import { AuthProvider } from "./AuthProvider/AuthProvider";
 
 export const App = () => {
 
   return (
     <>
+      <AuthProvider />
       <Header />
       <Hero heroData={heroData} />
       <ListTeam />

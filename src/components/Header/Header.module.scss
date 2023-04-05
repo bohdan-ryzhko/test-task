@@ -47,3 +47,18 @@
     max-width: 220px;
   }
 }
+
+.headerAnchor {
+  color: $--main-color;
+  background-color: $--primary-color;
+  padding: 4px 25px;
+  flex-basis: calc(100% - 10px);
+  border-radius: 80px;
+  font-size: 16px;
+  transition: background-color 300ms ease;
+  text-align: center;
+
+  &:hover {
+    background-color: $--primary-color-hover;
+  }
+}

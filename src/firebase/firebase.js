@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
-const API_KEY = import.meta.env.VITE_API_KEY;
+import { GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-	apiKey: API_KEY,
+	apiKey: "AIzaSyDHqIH7h9MEGHFuCMKRmHdRxVRmUKbFHB0",
 	authDomain: "test-task-bf9bf.firebaseapp.com",
 	projectId: "test-task-bf9bf",
 	storageBucket: "test-task-bf9bf.appspot.com",
@@ -11,3 +11,5 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+
+export const googleAuthProvider = new GoogleAuthProvider();

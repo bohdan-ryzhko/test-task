@@ -14,7 +14,7 @@ export const Header = () => {
 						</a>
 					</div>
 					<div className={sass.header__authorization}>
-						<Button text="Users" type="button" disabled={false} />
+						<a className={sass.headerAnchor} href="#users">Users</a>
 						<Button text="Sign up" type="button" disabled={false} />
 					</div>
 				</div>

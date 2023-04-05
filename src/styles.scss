@@ -1,5 +1,9 @@
 @import './sass/_components.scss';
 
+html {
+  scroll-behavior: smooth;
+}
+
 *,
 *::after,
 *::before {
@@ -22,10 +26,13 @@ li {
   list-style-type: none;
 }
 
-button {
+button,
+a {
+  font-family: inherit;
   cursor: pointer;
   border: none;
   font-size: inherit;
+  font-weight: inherit;
   line-height: inherit;
 }
 
@@ -44,8 +51,6 @@ p {
 
 a {
   text-decoration: none;
-  font-size: inherit;
-  line-height: inherit;
 }
 
 @import './components/Header/Header.module.scss';

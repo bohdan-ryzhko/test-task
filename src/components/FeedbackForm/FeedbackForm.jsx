@@ -7,7 +7,7 @@ export const FeedbackForm = () => {
 		<section className={sass.feedback__section}>
 			<div className="container">
 				<div className="feedback__inner">
-					<SectionTitle title="Working with POST request" />
+					<SectionTitle title="Create your FAKE user" />
 					<div className="feedback__form">
 						<MyForm />
 					</div>

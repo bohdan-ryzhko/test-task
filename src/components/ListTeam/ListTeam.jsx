@@ -14,29 +14,40 @@ export const ListTeam = () => {
 	const [isLoad, setIsLoad] = useState(false);
 
 	useEffect(() => {
-			setIsLoad(true);
-			axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
-				.then(({ data: { users, total_pages } }) => {
-						setTotalPages(total_pages);
-					if (page === totalPages) {
-						setHiddenLoadMore(true);
-						setIsLoad(false);
-						return setFetchUsers(prev => [...prev, ...users]);
-					}
-					if (page > 1) {
-						setIsLoad(false);
-						return setFetchUsers(prev => [...prev, ...users]);
-					}
-					setFetchUsers(users);
+		const controller = new AbortController();
+		setIsLoad(true);
+
+		async function fetchUsers() {
+			return axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`, {
+				signal: controller.signal,
+			});
+		}
+
+		fetchUsers()
+			.then(({ data: { users, total_pages } }) => {
+				setTotalPages(total_pages);
+				if (page === totalPages) {
+					setHiddenLoadMore(true);
 					setIsLoad(false);
-				});
+					return setFetchUsers(prev => [...prev, ...users]);
+				}
+				if (page > 1) {
+					setIsLoad(false);
+					return setFetchUsers(prev => [...prev, ...users]);
+				}
+				setFetchUsers(users);
+				setIsLoad(false);
+			});
+		return () => {
+			controller.abort();
+		}
 	}, [page, totalPages]);
 
 	return (
 		<section className={sass.section__team}>
 			<div className="container">
-				<div className={sass.team__inner}>
-					<SectionTitle title="Working with GET request" />
+				<div id="users" className={sass.team__inner}>
+					<SectionTitle title="Section with users" />
 					<ul className={sass.team__list}>
 						{
 							(fetchUsers.length > 0) &&

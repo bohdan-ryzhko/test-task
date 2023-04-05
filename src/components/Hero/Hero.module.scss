@@ -44,6 +44,20 @@
 .heroText {
   margin-bottom: 32px;
   font-size: 14px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 30px;
+  }
+
   @include mobile {
     font-size: 16px;
   }

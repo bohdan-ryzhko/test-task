@@ -23,8 +23,12 @@ export const MyForm = () => {
 	}
 
 	useEffect(() => {
-		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token")
-			.then(({ data: { token } }) => setToken(token))
+		const controller = new AbortController();
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token", { signal: controller.signal })
+			.then(({ data: { token } }) => setToken(token));
+		return () => {
+			controller.abort();
+		}
 	}, []);
 
 
@@ -74,8 +78,12 @@ export const MyForm = () => {
 	});
 
 	useEffect(() => {
-		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
-			.then(({ data: { positions } }) => setCheckedRadios(positions))
+		const controller = new AbortController();
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions", { signal: controller.signal })
+			.then(({ data: { positions } }) => setCheckedRadios(positions));
+		return () => {
+			controller.abort();
+		}
 	}, []);
 
 	const handlePhoto = ({ target }) => {
