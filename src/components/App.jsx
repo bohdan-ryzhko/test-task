@@ -11,7 +11,7 @@ export const App = () => {
 
   return (
     <>
-      <AuthProvider />
+      {/* <AuthProvider /> */}
       <Header />
       <Hero heroData={heroData} />
       <ListTeam />
