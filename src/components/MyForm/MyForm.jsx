@@ -23,12 +23,8 @@ export const MyForm = () => {
 	}
 
 	useEffect(() => {
-		const controller = new AbortController();
-		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token", { signal: controller.signal })
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/token")
 			.then(({ data: { token } }) => setToken(token));
-		return () => {
-			controller.abort();
-		}
 	}, []);
 
 
@@ -78,12 +74,8 @@ export const MyForm = () => {
 	});
 
 	useEffect(() => {
-		const controller = new AbortController();
-		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions", { signal: controller.signal })
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
 			.then(({ data: { positions } }) => setCheckedRadios(positions));
-		return () => {
-			controller.abort();
-		}
 	}, []);
 
 	const handlePhoto = ({ target }) => {
@@ -195,7 +187,7 @@ export const MyForm = () => {
 						<img className={sass.successImg} src={succesImage} alt="User successfully registered" />
 					</>
 				}
-			<Button text="Sign up" type="submit" disabled={false} />
+			<Button text="Submit" type="submit" disabled={false} />
 		</form>
 	)
 }

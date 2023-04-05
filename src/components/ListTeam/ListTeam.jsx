@@ -14,13 +14,9 @@ export const ListTeam = () => {
 	const [isLoad, setIsLoad] = useState(false);
 
 	useEffect(() => {
-		const controller = new AbortController();
 		setIsLoad(true);
-
 		async function fetchUsers() {
-			return axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`, {
-				signal: controller.signal,
-			});
+			return axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`);
 		}
 
 		fetchUsers()
@@ -38,15 +34,12 @@ export const ListTeam = () => {
 				setFetchUsers(users);
 				setIsLoad(false);
 			});
-		return () => {
-			controller.abort();
-		}
 	}, [page, totalPages]);
 
 	return (
 		<section className={sass.section__team}>
 			<div className="container">
-				<div id="users" className={sass.team__inner}>
+				<div className={sass.team__inner}>
 					<SectionTitle title="Section with users" />
 					<ul className={sass.team__list}>
 						{
