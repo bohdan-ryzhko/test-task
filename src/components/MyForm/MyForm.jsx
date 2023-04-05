@@ -27,6 +27,10 @@ export const MyForm = () => {
 			.then(({ data: { token } }) => setToken(token));
 	}, []);
 
+	useEffect(() => {
+		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
+			.then(({ data: { positions } }) => setCheckedRadios(positions));
+	}, []);
 
 	const formik = useFormik({
 		initialValues,
@@ -73,11 +77,6 @@ export const MyForm = () => {
 		}
 	});
 
-	useEffect(() => {
-		axios.get("https://frontend-test-assignment-api.abz.agency/api/v1/positions")
-			.then(({ data: { positions } }) => setCheckedRadios(positions));
-	}, []);
-
 	const handlePhoto = ({ target }) => {
 		formik.setFieldValue("userPhoto", target.files[0]);
 		if (target.value) {
@@ -97,7 +96,6 @@ export const MyForm = () => {
 						className={sass.formInput}
 						name="name"
 						autoComplete="off"
-						autoFocus
 						type="text"
 						placeholder="Your name"
 					/>
@@ -114,7 +112,6 @@ export const MyForm = () => {
 						className={sass.formInput}
 						name="email"
 						autoComplete="off"
-						autoFocus
 						type="email"
 						placeholder="Email"
 					/>
@@ -131,7 +128,6 @@ export const MyForm = () => {
 						className={sass.formInput}
 						name="phone"
 						autoComplete="off"
-						autoFocus
 						type="phone"
 						placeholder="Phone"
 					/>
