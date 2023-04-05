@@ -9,19 +9,22 @@ import { UserMenu } from "./UserMenu/UserMenu";
 import { useState } from "react";
 
 export const App = () => {
-
   const [toggleMenu, setToggleMenu] = useState(false);
   const [onSignUp, setOnSignUp] = useState(false);
+  const [user, setUser] = useState();
 
   return (
     <>
       <UserMenu
+        user={user}
+        setUser={setUser}
         onSignUp={onSignUp}
         setOnSignUp={setOnSignUp}
         toggleMenu={toggleMenu}
         setToggleMenu={setToggleMenu}
       />
       <Header
+        user={user}
         onSignUp={onSignUp}
         setOnSignUp={setOnSignUp}
         setToggleMenu={setToggleMenu}

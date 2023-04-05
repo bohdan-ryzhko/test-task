@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { app, googleAuthProvider } from "../../firebase/firebase";
 import { UnAuth } from "components/UnAuth/UnAuth";
 import { SuccessAuth } from "components/SuccessAuth/SuccessAuth";
 
-export const AuthProvider = ({ onSignUp }) => {
+export const AuthProvider = ({ user, setUser, onSignUp }) => {
 	const auth = getAuth(app);
-	const [user, setUser] = useState(auth.currentUser);
-	console.log(user);
 
 	useEffect(() => {
 		if (onSignUp) {
@@ -20,18 +18,16 @@ export const AuthProvider = ({ onSignUp }) => {
 					.then(credentials => setUser(credentials.user))
 					.catch(error => console.error(error));
 			})
-		return unsub;
+			return unsub;
 		}
 
-	}, [onSignUp, auth])
+	}, [onSignUp, auth, setUser]);
 
 	return (
-		user !== null
+		user !== undefined
 			?(
 				<>
-					<SuccessAuth photo={user && user.photoURL} email={user.email} name={user.displayName} />
-					{/* <img width={100} height={100} className={sass.userPhoto} src={user && user.photoURL} alt="Avatar" />
-					<p>{user.displayName}</p> */}
+					<SuccessAuth photo={user && user.photoURL} email={user && user.email} name={user && user.displayName} />
 				</>
 			)
 			: <UnAuth />

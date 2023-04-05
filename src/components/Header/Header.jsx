@@ -2,7 +2,7 @@ import sass from "./Header.module.scss";
 import logo from "../../images/logo.svg";
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-export const Header = ({ onSignUp, setOnSignUp, setToggleMenu }) => {
+export const Header = ({ user, setOnSignUp, setToggleMenu }) => {
 	return (
 		<header className={sass.header}>
 			<div className="container">
@@ -18,7 +18,7 @@ export const Header = ({ onSignUp, setOnSignUp, setToggleMenu }) => {
 					<div className={sass.header__authorization}>
 						<button className={sass.signUp} onClick={() => setOnSignUp(true)}>
 							{
-								onSignUp
+								user !== undefined
 									? "Authorized"
 									: "Sign up"
 							}
