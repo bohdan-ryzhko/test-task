@@ -14,8 +14,7 @@ export const ListTeam = () => {
 
 	useEffect(() => {
 		const controller = new AbortController();
-		if (page) {
-			setIsLoad(true);
+		setIsLoad(true);
 			fetchResponse(page, controller.signal)
 			.then(({ data }) => {
 				if (!data.success) {
@@ -29,7 +28,6 @@ export const ListTeam = () => {
 			}).catch(error => {
 				console.log(error.message)
 			});
-		}
 		return () => {
 			controller.abort();
 		}
