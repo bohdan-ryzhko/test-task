@@ -4,37 +4,36 @@ import { Participant } from "components/Participant/Participant";
 import { Button } from "components/Button/Button";
 import { useEffect, useState } from "react";
 import { Puff } from 'react-loader-spinner';
-import axios from "axios";
+import { fetchResponse } from "services/fetchResponse";
 
 export const ListTeam = () => {
 	const [isHiddenLoadMore, setHiddenLoadMore] = useState(false);
 	const [fetchUsers, setFetchUsers] = useState([]);
 	const [page, setPage] = useState(1);
-	const [totalPages, setTotalPages] = useState(0);
 	const [isLoad, setIsLoad] = useState(false);
 
 	useEffect(() => {
-		setIsLoad(true);
-		async function fetchUsers() {
-			return axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`);
-		}
-
-		fetchUsers()
-			.then(({ data: { users, total_pages } }) => {
-				setTotalPages(total_pages);
-				if (page === totalPages) {
-					setHiddenLoadMore(true);
-					setIsLoad(false);
-					return setFetchUsers(prev => [...prev, ...users]);
+		const controller = new AbortController();
+		if (page) {
+			setIsLoad(true);
+			fetchResponse(page, controller.signal)
+			.then(({ data }) => {
+				if (!data.success) {
+					Promise.reject(data);
 				}
-				if (page > 1) {
-					setIsLoad(false);
-					return setFetchUsers(prev => [...prev, ...users]);
+				if (page === data.total_pages) {
+					setHiddenLoadMore(true)
 				}
-				setFetchUsers(users);
+				setFetchUsers(prevData => [...prevData, ...data.users]);
 				setIsLoad(false);
+			}).catch(error => {
+				console.log(error.message)
 			});
-	}, [page, totalPages]);
+		}
+		return () => {
+			controller.abort();
+		}
+	}, [page]);
 
 	return (
 		<section className={sass.section__team}>
